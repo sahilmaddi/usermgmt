@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.1/css/bootstrap.min.css}" />
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #e9ecef;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            margin-top: 70px;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 5px;
+            box-shadow: inset 0 0 0 1px #ced4da;
+            height: 45px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem; /* Added margin to create a gap */
+            display: block; /* Ensures the label takes up the full width */
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 5px;
+            height: 45px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004a9d;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #343a40;
+            margin-bottom: 10px;
+        }
+
+        .header p.lead {
+            font-size: 1.1rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>User Registration</h1>
+            <p class="lead">Please fill in the form below to create an account.</p>
+        </div>
+
+        <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{uname}" placeholder="Enter your name" />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Enter your email" />
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" class="form-control" id="phone" th:field="*{phno}" placeholder="Enter your phone number" />
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <select class="form-select" id="country" th:field="*{country}">
+                    <option value="" selected>Select a country</option>
+                    <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="state" class="form-label">State</label>
+                <select class="form-select" id="state" th:field="*{state}">
+                    <option value="" selected>Select a state</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <select class="form-select" id="city" th:field="*{city}">
+                    <option value="" selected>Select a city</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+    </div>
+
+    <!-- jQuery -->
+    <script th:src="@{/webjars/jquery/3.6.4/jquery.min.js}"></script>
+    <!-- Bootstrap JS -->
+    <script th:src="@{/webjars/bootstrap/5.3.1/js/bootstrap.bundle.min.js}"></script>
+    <!-- Custom JS for AJAX -->
+    <script th:src="@{/js/dynamicDropdowns.js}"></script>
+
+</body>
+
+</html>

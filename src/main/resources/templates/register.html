@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Here</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+		$(document).ready(function () {
+		    $("#countryId").on("change", function () {
+		        var cid = $(this).val(); // Use 'this' to get the value of the changed element
+		        if (cid) { // Check if cid is not empty
+					$.ajax({
+					    url: "http://localhost:8081/states/1",
+					    type: "GET",
+					    data: { countryId: cid },
+					    success: function(response) {
+					        console.log(response);
+					        // Handle the response here
+							$.each(response,function(key,value){
+								$('<option>').val(key).text(value).appendTo("#stateId");
+							});
+					    },
+					    error: function(xhr, status, error) {
+					        console.error("Error: " + error);
+					        // Handle the error here
+					    }
+					});
+		        } else {
+		            $("#stateId").empty(); // Clear options if no country is selected
+		        }
+		    });
+			
+			
+			
+			$("#stateId").on("change", function () {
+				        var sid = $(this).val(); // Use 'this' to get the value of the changed element
+				        if (sid) { // Check if cid is not empty
+							$.ajax({
+							    url: "http://localhost:8081/cities/1",
+							    type: "GET",
+							    data: { stateId: sid },
+							    success: function(response) {
+							        console.log(response);
+							        // Handle the response here
+									$.each(response,function(key,value){
+										$('<option>').val(key).text(value).appendTo("#cityId");
+									});
+							    },
+							    error: function(xhr, status, error) {
+							        console.error("Error: " + error);
+							        // Handle the error here
+							    }
+							});
+				        } else {
+				            $("#stateId").empty(); // Clear options if no country is selected
+				        }
+				    });
+		});
+
+		
+    </script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <font style="color: red;">
+                    <p th:text="${emsg}"></p>
+                </font>
+                <font style="color: green;">
+                    <p th:text="${smsg}"></p>
+                </font>
+
+                <h1 class="text-center">Register Here</h1>
+                <form th:action="@{/register}" th:object="${registerForm}" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" th:field="*{name}" placeholder="Enter your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" th:field="*{email}" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" th:field="*{phone}" placeholder="Enter your phone number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="countryId" class="form-label">Country</label>
+                        <select class="form-select" id="countryId" name="countryId" th:field="*{countryId}" required>
+                            <option value="">-Select Country-</option>
+                            <option th:each="country : ${countries}" th:value="${country.key}" th:text="${country.value}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stateId" class="form-label">State</label>
+                        <select class="form-select" id="stateId" name="stateId" th:field="*{stateId}" required>
+                            <option value="">-Select State-</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cityId" class="form-label">City</label>
+                        <select class="form-select" id="cityId" name="cityId" th:field="*{cityId}" required>
+                            <option value="">-Select City-</option>
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Sign-Up</button>
+                    </div>
+                </form>
+                <div class="mt-3 text-center">
+                    <a href="/login">Do you have an account? Sign-In Here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
